@@ -1,0 +1,40 @@
+---
+title: TightVNC too many authentication failures [Resolved]
+published: true
+description: Solution for "Authentication reason Too many authentication failures"
+tags: vncserver, TightVNC, RDP, ubuntu
+---
+##The Problem
+![vnc server the authentication error with too many authentication failures](https://thepracticaldev.s3.amazonaws.com/i/qdt7kcnqmrab1xjsbr60.png)
+
+You want to access ubuntu server with its graphical user interface you install TightVNC or x2go. I installed TightVNC's vncserver in my Ubuntu and was able to access it for a few days and then suddenly saw this: "Authentication reason: Too many authentication failures". That drove me nuts and wouldn't let me in. 
+
+The problem may occur by you, making too many failed attempts to login to vncserver, or it can be bots accessing your server with brute force methods.
+
+## The Solution:
+You will have to kill the vnc process and restart it to gain access to the vncserver again. Connect to your server via ssh and run the following command
+```
+pgrep vnc
+
+// the output will look like following but yours will be different (sure thing)
+17732
+23723
+```
+You will see one or more process ids that are running against vncserver. Just run the following command for each process id
+```
+kill PID
+
+// In my case I ran the following two since I had two process ids
+kill 17732
+kill 23723
+```
+Now you have killed TightVNC on your Ubuntu. Turn it on again and you'll be fine to connect again. To make the VNC up and running again, run the following command.
+```
+vncserver -geometry 1920x1080
+```
+![vnc server the solution to authentication error with too many authentication failures ](https://thepracticaldev.s3.amazonaws.com/i/ia674uwp94n3ezsuonk6.png)
+That's it!
+
+TightVNC working again on my server:
+![TightVnC connection made again after fixing authentication error with too many authentication failures](https://thepracticaldev.s3.amazonaws.com/i/m3tcps4s4p6lyg427enh.png)
+Further, read on how to prevent this from happening again can be found here by [solveopti](https://solveoptimized.com/how-to-resolve-prevent-too-many-authentication-failures-with-vnc/).
